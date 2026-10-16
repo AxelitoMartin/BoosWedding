@@ -1,0 +1,50 @@
+This repo is to build a wedding website for my wife and I. We are having it Beijing on september 4th 2027. 
+Due to me being french/american and her being chinese. I want you to keep in mind that multiple versions of the same website must be available.
+This can be done simply through having a chose language at the top of the main page that will redirect people towards a page in the language of their choosing. 
+
+We have a friend couple that is in a similar situation and built the following website that could be used for reference and example of how to build it:
+https://chloeandbyronhk.webflow.io/
+Go through it as an example of how to build the website. Obviously this is for a hong kong wedding so some things may be in cantonese, please make sure you stick to mandarin. 
+I added the images of our save the date and the raw image of the save the date (before the overlay) that you can use for the creation of the header.
+
+Make sure to include a registration like they did!
+
+Also could you add some text about us:
+- We officially got married in october 2025 at Brooklyn city hall 
+- Claudia got her green card in the mean time letting her freely travel out of the USA
+- We are excited to be able to celebrate our union with all that we hold dear
+- In a celebration to the image of the Qing dynasty
+Embelish a little to make it cute and fun.
+
+Okay great thank you. Feedback:
+- Make the our story section prettier (e.g.: a nice surrounding box in the colors of the qing dynasty,
+or matching our save the date).
+- remove the timeline summary at the end of the section
+- First sentence should be along the lines of: We may have been married by an overly enthusiastic
+New York City hall employee whos break we cut short, but somehow that was not enough to content us.
+- Second sentence: Since then many things have changed, Claudia has become a green card holder and
+ferocious entrepeneur trying the escape the permanent underclass of our future AI overlords, while
+Axel after becoming a Dr. (of philosophy... not the one that can actually help you) pursues 
+an academic career in cancer research, blissfully ignorant of the concerns of his wife.
+- Third sentence: Somehow, this made us ready to celebrate properly with all of you that we 
+hold dear. We hope you will join us in a quintensential Qing style wedding, where 
+horses, music, yellow silk and imperial drama will be galore!
+
+Rewrite this to fix any typos, grammar and sentence structure, 
+but make sure to keep the meaning the same!
+
+Could you add a drop down about dietery restrictions (pescatarian, vegetarian, vegan) 
+like they have in their own websiste when registering. As well as a checkbox if they want
+help with logging/accomodations if traveling from abroad.
+
+Okay could you add a section that is short links for foreigners towards:
+- visa requirements and how to get a visa
+- Apps and payments
+
+And a section that says something along the lines of "Ask any question to our new AI agent! (It's just Axel...)"
+where people can contact me via email: axel.steph.martin@gmail.com
+or whatsapp: +1 (734)-780-9938
+
+For the chinese version make claudia the contact (use Jingyi written in mandarin):
+- email: claudia.j.shi@gmail.com
+- Weechat: claudiaisawesome

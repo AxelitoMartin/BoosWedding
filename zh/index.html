@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claudia &amp; Axel · 2027年9月4日 · 北京</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz@6..96&family=Mrs+Saint+Delafield&family=Open+Sans:wght@400;600&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css?v=6">
+  <link rel="alternate" hreflang="en" href="../en/">
+  <link rel="alternate" hreflang="fr" href="../fr/">
+  <link rel="alternate" hreflang="zh-Hans" href="../zh/">
+</head>
+<body>
+  <header class="hero">
+    <div class="topbar">
+      <nav>
+        <a href="#story">我们的故事</a>
+        <a href="#details">婚礼信息</a>
+        <a href="#rsvp">回复出席</a>
+        <a href="#travel">出行指南</a>
+      </nav>
+      <nav class="langs" aria-label="Language">
+        <a href="../en/" hreflang="en">English</a>
+        <a href="../fr/" hreflang="fr">Français</a>
+        <a href="../zh/" hreflang="zh-Hans" aria-current="page">中文</a>
+      </nav>
+    </div>
+    <div class="hero-text">
+      <p class="names">Claudia &amp; Axel</p>
+      <p class="date">2027年9月4日</p>
+      <p class="place">中国 · 北京</p>
+    </div>
+    <a class="scroll-cue" href="#story">向下滑动 ↓</a>
+  </header>
+
+  <section id="story">
+    <div class="wrap">
+      <div class="story-card">
+        <div class="seal" aria-hidden="true">囍</div>
+        <h2>我们的故事</h2>
+        <div class="story">
+          <p>我们虽然一年前就已经在纽约市政厅，由一位热情过头的工作人员（我们还打断了人家的休息时间）证婚，但不知怎的，总觉得还不够尽兴。</p>
+          <p>这期间发生了很多变化。Claudia 拿到了绿卡，还成了一名拼劲十足的创业者，誓要逃离未来 AI 霸主统治下的“永久底层”；而 Axel 成了博士，在癌症研究领域追求学术事业，对老婆的种种忧虑浑然不觉，乐在其中。</p>
+          <p>也许正因如此，我们终于准备好和所有珍爱的亲朋好友们好好庆祝一番。诚邀您参加一场原汁原味的清朝风格婚礼：骏马、鼓乐、明黄丝绸，还有满满的宫廷大戏！</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="details">
+    <div class="wrap">
+      <h2>我们要结婚啦</h2>
+      <p class="lead">诚挚邀请您来北京与我们共同见证这一天。正式请柬及详细流程将随后寄出。</p>
+      <div class="details">
+        <div class="detail"><div class="label">时间</div><div class="value">2027年9月4日（星期六）</div></div>
+        <div class="detail"><div class="label">地点</div><div class="value">中国北京</div></div>
+        <div class="detail"><div class="label">场地</div><div class="value">稍后公布</div></div>
+      </div>
+      <div class="countdown" data-countdown>
+        <div><strong data-days>–</strong><span>天</span></div>
+        <div><strong data-hours>–</strong><span>小时</span></div>
+        <div><strong data-minutes>–</strong><span>分钟</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="photo">
+    <img src="../assets/save-the-date.jpg" alt="Claudia &amp; Axel, Beijing, 4 September 2027" loading="lazy">
+  </div>
+
+  <section id="rsvp">
+    <div class="wrap">
+      <h2>期待您的光临</h2>
+      <p class="lead">我们正在确认宾客名单，请于2027年2月1日前回复。</p>
+
+      <form class="rsvp">
+        <div class="row">
+          <label class="field">名<input type="text" name="firstName" autocomplete="given-name" required maxlength="100"></label>
+          <label class="field">姓<input type="text" name="lastName" autocomplete="family-name" required maxlength="100"></label>
+        </div>
+        <label class="field">电子邮箱<input type="email" name="email" autocomplete="email" required maxlength="200"></label>
+        <label class="field">邮寄地址（用于寄送正式请柬）<input type="text" name="address" autocomplete="street-address" maxlength="300"></label>
+
+        <fieldset>
+          <legend>能否出席</legend>
+          <div class="options">
+            <label><input type="radio" name="attending" value="yes" required> 欣然赴约</label>
+            <label><input type="radio" name="attending" value="no"> 遗憾缺席</label>
+          </div>
+        </fieldset>
+
+        <label class="field">出席人数（含您本人）
+          <input type="number" name="guests" min="1" max="10" value="1">
+        </label>
+
+        <label class="field">饮食禁忌
+          <select name="dietary">
+            <option value="" disabled selected>请选择</option>
+            <option value="none">无</option>
+            <option value="pescatarian">鱼素（可吃海鲜）</option>
+            <option value="vegetarian">素食</option>
+            <option value="vegan">纯素</option>
+            <option value="gluten">无麸质</option>
+            <option value="dairy">乳制品过敏</option>
+            <option value="nuts">坚果过敏</option>
+            <option value="halal">清真</option>
+            <option value="other">其他（请在下方注明）</option>
+          </select>
+        </label>
+        <label class="field">其他过敏或备注<input type="text" name="dietaryOther" maxlength="300"></label>
+        <label class="check"><input type="checkbox" name="lodging" value="yes"> 我从海外前来，希望获得住宿安排方面的帮助</label>
+
+        <label class="field">给我们的留言（选填）<textarea name="message" rows="3" maxlength="1000"></textarea></label>
+
+        <button type="submit">提交</button>
+      </form>
+
+      <div class="form-msg" data-success hidden>
+        <h3>谢谢</h3>
+        <p>我们已收到您的回复，详细信息将随后通知。</p>
+      </div>
+      <div class="form-msg error" data-error hidden><p>抱歉，提交失败，请稍后再试。</p></div>
+    </div>
+  </section>
+
+  <section id="travel">
+    <div class="wrap wide">
+      <h2>海外来宾出行指南</h2>
+      <p class="lead">以下链接供从海外前来的宾客参考。相关政策时有变化，请在出发前几周再次确认。</p>
+      <div class="guide">
+        <div class="guide-group">
+          <h3>签证</h3>
+          <ul>
+            <li><a href="https://www.nia.gov.cn/" target="_blank" rel="noopener">免签入境及240小时过境免签政策</a><span>国家移民管理局</span></li>
+            <li><a href="https://www.visaforchina.cn/" target="_blank" rel="noopener">申请中国签证</a><span>中国签证申请服务中心</span></li>
+            <li><a href="https://us.china-embassy.gov.cn/eng/" target="_blank" rel="noopener">中国驻美国大使馆</a><span>在美居民签证信息（英文）</span></li>
+            <li><a href="https://fr.china-embassy.gov.cn/fra/" target="_blank" rel="noopener">中国驻法国大使馆</a><span>在法居民签证信息（法文）</span></li>
+          </ul>
+        </div>
+        <div class="guide-group">
+          <h3>应用与支付</h3>
+          <ul>
+            <li><a href="https://english.beijing.gov.cn/specials/paymentservices/howtopaybeijing/" target="_blank" rel="noopener">北京支付指南</a><span>北京市政府官方指南（英文）</span></li>
+            <li><a href="https://english.beijing.gov.cn/specials/paymentservices/guidevideos/" target="_blank" rel="noopener">视频教程：支付宝与微信支付</a><span>绑定境外银行卡的步骤（英文）</span></li>
+            <li><a href="https://global.alipay.com/" target="_blank" rel="noopener">支付宝</a><span>可绑定 Visa 或万事达卡，几乎随处可用</span></li>
+            <li><a href="https://www.wechat.com/" target="_blank" rel="noopener">微信</a><span>聊天与微信支付</span></li>
+            <li><a href="https://www.didiglobal.com/" target="_blank" rel="noopener">滴滴出行</a><span>打车出行，支付宝内也可直接使用</span></li>
+          </ul>
+        </div>
+      </div>
+      <p class="tip">温馨提示：在中国大陆使用本地 Wi-Fi 时无法访问 Google、WhatsApp 和 Instagram。建议使用国际漫游数据，或在出发前准备好 VPN。</p>
+    </div>
+  </section>
+
+  <section id="ask">
+    <div class="wrap">
+      <div class="ask-card">
+        <h2>有任何问题，尽管问我们全新的 AI 助手！</h2>
+        <p class="ask-sub">（其实就是 Claudia……）</p>
+        <p>签证、出行、穿搭，或者任何其他问题：我们最先进的“智能助手”会亲自回复每一条消息。回复速度视她手头的创业项目有多忙而定。</p>
+        <div class="contact">
+          <a class="contact-btn" href="mailto:claudia.j.shi@gmail.com">
+            <span class="contact-label">电子邮箱</span>
+            <span class="contact-value">claudia.j.shi@gmail.com</span>
+          </a>
+          <button type="button" class="contact-btn" data-copy="claudiaisawesome" data-copied="微信号已复制">
+            <span class="contact-label">微信号</span>
+            <span class="contact-value">claudiaisawesome</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="monogram">C &amp; A</div>
+    <p>2027年9月4日 · 北京</p>
+  </footer>
+
+  <script src="../assets/site.js?v=6"></script>
+</body>
+</html>
