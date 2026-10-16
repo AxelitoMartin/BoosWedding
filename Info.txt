@@ -55,4 +55,12 @@ Here are the details on the venue:
 - maps: https://www.google.com/maps/place/Baijia+Restaurant+%EF%BC%88North+Gate%EF%BC%89/@39.980939,116.304395,17z/data=!3m1!4b1!4m6!3m5!1s0x35f0514887b8b481:0x45f1b1ca78a98e57!8m2!3d39.980939!4d116.304395!16s%2Fg%2F11cm1jnj1l!18m1!1e1?entry=ttu&g_ep=EgoyMDI2MTAxMy4wIKXMDSoASAFQAw%3D%3D
 
 Could you give people: the name of the place, the address and a link to the place (through maps,
-and whatever chinese people use for location.)
+and whatever chinese people use for location.) 
+Also add that we will provide transportation from the airport (more details to come).
+
+
+-----------------------------------------------------------------
+
+Okay great, next I would like to make this website password protected. Could you implement this
+feature and block access to everyone that cannot provide the password:
+psyduck&snorlax

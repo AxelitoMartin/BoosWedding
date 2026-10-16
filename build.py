@@ -1,12 +1,29 @@
-"""Generate the per-language pages (en/, fr/, zh/) from one template.
+"""Build the password-protected wedding site into site/.
 
 Edit the text in STRINGS below, then run:  python3 build.py
+
+Every page and photo is encrypted with the site password (AES-256-GCM, key from
+PBKDF2-SHA256), and assets/gate.js decrypts them in the browser once a guest
+enters it. The password is read from the SITE_PASSWORD environment variable or
+from the git-ignored file .site-password. Deploy the site/ folder as is.
 """
 
+import base64
+import hashlib
+import json
+import os
+import re
+import secrets
+import shutil
+import sys
 from html import escape
 from pathlib import Path
 
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+
 ROOT = Path(__file__).parent
+OUT = ROOT / "site"
+PBKDF2_ITERATIONS = 250_000
 
 # Venue: coordinates from the Google Maps pin (GCJ-02, the system Chinese map apps use)
 VENUE_ZH = "白家大院（北门）"
@@ -98,6 +115,8 @@ STRINGS = {
         "venue_metro": "Metro Line 10, Suzhoujie station, then about a 500 m walk.",
         "maps_note": "Google Maps does not work in mainland China without a VPN. Apple Maps and Amap work everywhere.",
         "maps_order": ["google", "apple", "amap", "baidu"],
+        "airport_title": "Airport transfers",
+        "airport_body": "We will provide transportation from the airport. More details to come.",
         "footer": "4 September 2027 · Beijing",
     },
     "fr": {
@@ -157,6 +176,8 @@ STRINGS = {
         "venue_metro": "Métro ligne 10, station Suzhoujie, puis environ 500 m à pied.",
         "maps_note": "Google Maps ne fonctionne pas en Chine continentale sans VPN. Apple Plans et Amap fonctionnent partout.",
         "maps_order": ["google", "apple", "amap", "baidu"],
+        "airport_title": "Navettes depuis l'aéroport",
+        "airport_body": "Nous organiserons le transport depuis l'aéroport. Plus de détails à venir.",
         "footer": "4 septembre 2027 · Pékin",
     },
     "zh": {
@@ -217,6 +238,8 @@ STRINGS = {
         "venue_metro": "地铁10号线苏州街站，步行约500米。",
         "maps_note": "",
         "maps_order": ["amap", "baidu", "apple", "google"],
+        "airport_title": "机场接送",
+        "airport_body": "我们将安排机场接送服务，具体信息稍后公布。",
         "footer": "2027年9月4日 · 北京",
     },
 }
@@ -236,7 +259,7 @@ TEMPLATE = """<!doctype html>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="{fonts}" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/style.css?v=7">
+  <link rel="stylesheet" href="../assets/style.css?v={ver}">
 {alternates}
 </head>
 <body>
@@ -292,6 +315,7 @@ TEMPLATE = """<!doctype html>
 {map_links}
         </div>
 {maps_note_html}
+        <p class="airport"><strong>{airport_title}</strong> {airport_body}</p>
       </div>
       <div class="countdown" data-countdown>
         <div><strong data-days>–</strong><span>{days}</span></div>
@@ -302,7 +326,7 @@ TEMPLATE = """<!doctype html>
   </section>
 
   <div class="photo">
-    <img src="../assets/save-the-date.jpg" alt="Claudia &amp; Axel, Beijing, 4 September 2027" loading="lazy">
+    <img data-enc-src="../assets/save-the-date.jpg.enc" alt="Claudia &amp; Axel, Beijing, 4 September 2027" loading="lazy">
   </div>
 
   <section id="rsvp">
@@ -356,6 +380,7 @@ TEMPLATE = """<!doctype html>
     <div class="wrap wide">
       <h2>{guide_title}</h2>
       <p class="lead">{guide_lead}</p>
+      <p class="airport"><strong>{airport_title}</strong> {airport_body}</p>
       <div class="guide">
 {guide_groups}
       </div>
@@ -381,7 +406,6 @@ TEMPLATE = """<!doctype html>
     <p>{footer}</p>
   </footer>
 
-  <script src="../assets/site.js?v=7"></script>
 </body>
 </html>
 """
@@ -427,13 +451,133 @@ def build(code: str) -> str:
         for k in s["maps_order"]
     )
     out["maps_note_html"] = f'        <p class="maps-note">{escape(s["maps_note"])}</p>' if s["maps_note"] else ""
+    out["ver"] = "{ver}"  # filled in at build time
     out["contact_buttons"] = "\n".join(contact_button(*c, copied=s.get("copied", "")) for c in CONTACTS[code])
     return TEMPLATE.format(**out)
 
 
+LANDING = """<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claudia &amp; Axel · 4 September 2027 · Beijing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="{fonts}" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v={ver}">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-text">
+      <p class="names">Claudia &amp; Axel</p>
+      <p class="date">Sept 4<sup>th</sup> 27</p>
+      <p class="place">Beijing · 北京</p>
+    </div>
+    <p class="lang-prompt" style="margin-top:40px">Choose your language · Choisissez votre langue · 请选择语言</p>
+    <nav class="lang-choice" aria-label="Language">
+      <a href="en/" hreflang="en" lang="en">English</a>
+      <a href="fr/" hreflang="fr" lang="fr">Français</a>
+      <a href="zh/" hreflang="zh-Hans" lang="zh-Hans">中文</a>
+    </nav>
+  </header>
+</body>
+</html>
+"""
+
+# What strangers see: only the password form. The real page is in the encrypted payload.
+SHELL = """<!doctype html>
+<html lang="{lang}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Claudia &amp; Axel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="{fonts}" rel="stylesheet">
+  <link rel="stylesheet" href="{rel}assets/style.css?v={ver}">
+</head>
+<body>
+  <main id="gate" class="gate" hidden>
+    <form>
+      <div class="monogram">C &amp; A</div>
+      <label for="pw">Password · Mot de passe · 密码</label>
+      <input id="pw" type="password" autocomplete="current-password" required>
+      <button type="submit">Enter · Entrer · 进入</button>
+      <p class="gate-error" data-gate-error hidden>Incorrect password · Mot de passe incorrect · 密码错误</p>
+    </form>
+  </main>
+  <div id="app" hidden></div>
+  <script id="enc" type="application/json">{payload}</script>
+  <script src="{rel}assets/gate.js?v={ver}"></script>
+</body>
+</html>
+"""
+
+
+def read_password() -> str:
+    password = os.environ.get("SITE_PASSWORD")
+    if not password and (ROOT / ".site-password").exists():
+        password = (ROOT / ".site-password").read_text(encoding="utf-8").strip()
+    if not password:
+        sys.exit("No password: set SITE_PASSWORD or create a .site-password file.")
+    return password
+
+
+def derive_key(password: str) -> tuple[bytes, bytes]:
+    # A fixed salt per password keeps the key stable across rebuilds, so guests
+    # stay logged in after updates but are asked again if the password changes.
+    salt = hashlib.sha256(b"booswedding:" + password.encode()).digest()[:16]
+    key = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, PBKDF2_ITERATIONS, dklen=32)
+    return salt, key
+
+
+def encrypt(key: bytes, data: bytes) -> bytes:
+    iv = secrets.token_bytes(12)
+    return iv + AESGCM(key).encrypt(iv, data, None)
+
+
+def b64(data: bytes) -> str:
+    return base64.b64encode(data).decode()
+
+
+def protect(html: str, key: bytes, salt: bytes, rel: str, ver: str) -> str:
+    """Swap a page's body for the password form plus the encrypted body."""
+    body = html[html.index("<body>") + len("<body>"):html.index("</body>")]
+    title = re.search(r"<title>(.*?)</title>", html).group(1)
+    fonts = re.search(r'<link href="([^"]+)" rel="stylesheet">', html).group(1)
+    lang = re.search(r'<html lang="([^"]+)">', html).group(1)
+    payload = {
+        "salt": b64(salt),
+        "iterations": PBKDF2_ITERATIONS,
+        "page": b64(encrypt(key, body.encode("utf-8"))),
+        "title": title.replace("&amp;", "&"),
+        "hero": f"{rel}assets/hero.jpg.enc",
+        "script": f"{rel}assets/site.js?v={ver}" if rel else "",
+    }
+    return SHELL.format(lang=lang, fonts=fonts, rel=rel, ver=ver,
+                        payload=json.dumps(payload).replace("</", "<\\/"))
+
+
 if __name__ == "__main__":
+    salt, key = derive_key(read_password())
+    if OUT.exists():
+        shutil.rmtree(OUT)
+    (OUT / "assets").mkdir(parents=True)
+
+    # Static files: CSS/JS are copied (they hold no wedding details), photos are encrypted.
+    for name in ["style.css", "site.js", "gate.js"]:
+        shutil.copy(ROOT / "assets" / name, OUT / "assets" / name)
+    for name in ["hero.jpg", "save-the-date.jpg"]:
+        (OUT / "assets" / f"{name}.enc").write_bytes(encrypt(key, (ROOT / "assets" / name).read_bytes()))
+    ver = hashlib.sha256(b"".join((ROOT / "assets" / n).read_bytes() for n in ["style.css", "site.js", "gate.js"])).hexdigest()[:8]
+
+    pages = {"index.html": (LANDING.format(fonts=FONTS.format(extra=""), ver=ver), "")}
     for code, _ in LANGS:
-        path = ROOT / code / "index.html"
-        path.parent.mkdir(exist_ok=True)
-        path.write_text(build(code), encoding="utf-8")
-        print("wrote", path.relative_to(ROOT))
+        pages[f"{code}/index.html"] = (build(code).replace("{ver}", ver), "../")
+    for path, (html, rel) in pages.items():
+        target = OUT / path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(protect(html, key, salt, rel, ver), encoding="utf-8")
+        print("wrote", target.relative_to(ROOT))
