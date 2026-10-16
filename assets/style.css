@@ -347,3 +347,32 @@ select { appearance: none; background: #fff url("data:image/svg+xml,%3Csvg xmlns
 .contact-label { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.8; }
 .contact-value { font-size: 16px; overflow-wrap: anywhere; }
 button.contact-btn { font: inherit; color: inherit; cursor: pointer; text-align: center; }
+
+/* ---------- Venue ---------- */
+.venue {
+  margin-top: 24px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 28px 22px;
+  text-align: center;
+}
+.venue h3 { font-family: var(--serif); font-weight: 400; font-size: 26px; color: var(--leaf); margin: 0 0 6px; }
+.venue p { margin: 0 auto 10px; max-width: 560px; }
+.venue-name { font-family: var(--serif); font-size: 20px; color: var(--vermilion); }
+.venue-address { font-weight: 600; }
+.venue-taxi { display: inline-grid; gap: 2px; padding: 10px 16px; background: #fbf3dc; border-radius: 8px; }
+.venue-taxi span { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+.venue-taxi strong { font-size: 18px; font-weight: 600; }
+.venue-metro { font-size: 15px; color: var(--muted); }
+.map-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 16px 0 8px; }
+.map-links a {
+  padding: 9px 16px;
+  border: 1px solid var(--leaf);
+  border-radius: 999px;
+  color: var(--leaf);
+  text-decoration: none;
+  font-size: 15px;
+}
+.map-links a:hover { background: var(--leaf); color: #fff; }
+.maps-note { font-size: 13px; color: var(--muted); }

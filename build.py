@@ -8,6 +8,16 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent
 
+# Venue: coordinates from the Google Maps pin (GCJ-02, the system Chinese map apps use)
+VENUE_ZH = "白家大院（北门）"
+VENUE_ADDRESS_ZH = "北京市海淀区苏州街15号"
+MAP_LINKS = {
+    "google": ("Google Maps", "Google 地图", "https://www.google.com/maps/place/Baijia+Restaurant+%EF%BC%88North+Gate%EF%BC%89/@39.980939,116.304395,17z/data=!3m1!4b1!4m6!3m5!1s0x35f0514887b8b481:0x45f1b1ca78a98e57!8m2!3d39.980939!4d116.304395!16s%2Fg%2F11cm1jnj1l"),
+    "apple": ("Apple Maps", "Apple 地图", "https://maps.apple.com/?q=%E7%99%BD%E5%AE%B6%E5%A4%A7%E9%99%A2%EF%BC%88%E5%8C%97%E9%97%A8%EF%BC%89&ll=39.980939,116.304395"),
+    "amap": ("Amap (高德地图)", "高德地图", "https://uri.amap.com/marker?position=116.304395,39.980939&name=%E7%99%BD%E5%AE%B6%E5%A4%A7%E9%99%A2%EF%BC%88%E5%8C%97%E9%97%A8%EF%BC%89&coordinate=gaode&callnative=1"),
+    "baidu": ("Baidu Maps (百度地图)", "百度地图", "https://api.map.baidu.com/marker?location=39.980939,116.304395&coord_type=gcj02&title=%E7%99%BD%E5%AE%B6%E5%A4%A7%E9%99%A2%EF%BC%88%E5%8C%97%E9%97%A8%EF%BC%89&content=%E5%8C%97%E4%BA%AC%E5%B8%82%E6%B5%B7%E6%B7%80%E5%8C%BA%E8%8B%8F%E5%B7%9E%E8%A1%9715%E5%8F%B7&output=html&src=webapp.booswedding.site"),
+}
+
 # Who guests contact in the "AI agent" section, per language: (label, shown value, link or None)
 AXEL = [
     ("Email", "axel.steph.martin@gmail.com", "mailto:axel.steph.martin@gmail.com"),
@@ -53,7 +63,7 @@ STRINGS = {
         "where": "Where",
         "where_value": "Beijing, China",
         "venue": "Venue",
-        "venue_value": "To be announced",
+        "venue_value": "Baijia Dayuan",
         "days": "days", "hours": "hours", "minutes": "minutes",
         "rsvp_title": "Will you celebrate with us",
         "rsvp_lead": "We are finalising our guest list, so please let us know by 1 February 2027.",
@@ -81,6 +91,13 @@ STRINGS = {
         "ask_title": "Ask our new AI agent anything!",
         "ask_sub": "(It's just Axel...)",
         "ask_body": "Visas, travel, outfits or anything else on your mind: our cutting-edge assistant answers every message personally. Response times may vary depending on how many experiments are running.",
+        "venue_title": "The venue",
+        "venue_desc": "A Qing dynasty garden dating back to the reign of Emperor Kangxi, now a restaurant serving imperial cuisine. The perfect setting for a Qing-style celebration.",
+        "venue_address": "15 Suzhou Street, Haidian District, Beijing",
+        "venue_taxi": "For your taxi driver",
+        "venue_metro": "Metro Line 10, Suzhoujie station, then about a 500 m walk.",
+        "maps_note": "Google Maps does not work in mainland China without a VPN. Apple Maps and Amap work everywhere.",
+        "maps_order": ["google", "apple", "amap", "baidu"],
         "footer": "4 September 2027 · Beijing",
     },
     "fr": {
@@ -105,7 +122,7 @@ STRINGS = {
         "where": "Où",
         "where_value": "Pékin, Chine",
         "venue": "Lieu",
-        "venue_value": "À venir",
+        "venue_value": "Baijia Dayuan",
         "days": "jours", "hours": "heures", "minutes": "minutes",
         "rsvp_title": "Serez-vous des nôtres",
         "rsvp_lead": "Nous finalisons la liste des invités, merci de nous répondre avant le 1er février 2027.",
@@ -133,6 +150,13 @@ STRINGS = {
         "ask_title": "Posez toutes vos questions à notre nouvel agent IA !",
         "ask_sub": "(C'est juste Axel...)",
         "ask_body": "Visa, voyage, tenue ou toute autre question : notre assistant dernier cri répond personnellement à chaque message. Le délai de réponse peut varier selon le nombre d'expériences en cours.",
+        "venue_title": "Le lieu",
+        "venue_desc": "Un jardin de la dynastie Qing datant du règne de l'empereur Kangxi, aujourd'hui un restaurant de cuisine impériale. Le cadre idéal pour une fête façon Qing.",
+        "venue_address": "15 rue Suzhou, district de Haidian, Pékin",
+        "venue_taxi": "Pour votre chauffeur de taxi",
+        "venue_metro": "Métro ligne 10, station Suzhoujie, puis environ 500 m à pied.",
+        "maps_note": "Google Maps ne fonctionne pas en Chine continentale sans VPN. Apple Plans et Amap fonctionnent partout.",
+        "maps_order": ["google", "apple", "amap", "baidu"],
         "footer": "4 septembre 2027 · Pékin",
     },
     "zh": {
@@ -157,7 +181,7 @@ STRINGS = {
         "where": "地点",
         "where_value": "中国北京",
         "venue": "场地",
-        "venue_value": "稍后公布",
+        "venue_value": "白家大院",
         "days": "天", "hours": "小时", "minutes": "分钟",
         "rsvp_title": "期待您的光临",
         "rsvp_lead": "我们正在确认宾客名单，请于2027年2月1日前回复。",
@@ -186,6 +210,13 @@ STRINGS = {
         "ask_sub": "（其实就是 Claudia……）",
         "ask_body": "签证、出行、穿搭，或者任何其他问题：我们最先进的“智能助手”会亲自回复每一条消息。回复速度视她手头的创业项目有多忙而定。",
         "copied": "微信号已复制",
+        "venue_title": "婚礼场地",
+        "venue_desc": "始建于康熙年间的清代王府园林，如今是一家以宫廷菜闻名的餐厅。用来举办一场清朝风格的婚礼，再合适不过了。",
+        "venue_address": "北京市海淀区苏州街15号",
+        "venue_taxi": "",
+        "venue_metro": "地铁10号线苏州街站，步行约500米。",
+        "maps_note": "",
+        "maps_order": ["amap", "baidu", "apple", "google"],
         "footer": "2027年9月4日 · 北京",
     },
 }
@@ -205,7 +236,7 @@ TEMPLATE = """<!doctype html>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="{fonts}" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/style.css?v=6">
+  <link rel="stylesheet" href="../assets/style.css?v=7">
 {alternates}
 </head>
 <body>
@@ -249,6 +280,18 @@ TEMPLATE = """<!doctype html>
         <div class="detail"><div class="label">{when}</div><div class="value">{when_value}</div></div>
         <div class="detail"><div class="label">{where}</div><div class="value">{where_value}</div></div>
         <div class="detail"><div class="label">{venue}</div><div class="value">{venue_value}</div></div>
+      </div>
+      <div class="venue">
+        <h3>{venue_title}</h3>
+        <p class="venue-name">{venue_name_html}</p>
+        <p>{venue_desc}</p>
+        <p class="venue-address">{venue_address}</p>
+{venue_taxi_html}
+        <p class="venue-metro">{venue_metro}</p>
+        <div class="map-links">
+{map_links}
+        </div>
+{maps_note_html}
       </div>
       <div class="countdown" data-countdown>
         <div><strong data-days>–</strong><span>{days}</span></div>
@@ -338,7 +381,7 @@ TEMPLATE = """<!doctype html>
     <p>{footer}</p>
   </footer>
 
-  <script src="../assets/site.js?v=6"></script>
+  <script src="../assets/site.js?v=7"></script>
 </body>
 </html>
 """
@@ -373,6 +416,17 @@ def build(code: str) -> str:
         + "\n          </ul>\n        </div>"
         for title, links in s["guide_groups"]
     )
+    zh = code == "zh"
+    out["venue_taxi_html"] = "" if zh else (
+        f'        <p class="venue-taxi"><span>{escape(s["venue_taxi"])}</span>'
+        f'<strong lang="zh-Hans">{VENUE_ADDRESS_ZH} {VENUE_ZH}</strong></p>'
+    )
+    out["venue_name_html"] = VENUE_ZH if zh else f'{out["venue_value"]} · <span lang="zh-Hans">{VENUE_ZH}</span>'
+    out["map_links"] = "\n".join(
+        f'          <a href="{escape(MAP_LINKS[k][2])}" target="_blank" rel="noopener">{escape(MAP_LINKS[k][1 if zh else 0])}</a>'
+        for k in s["maps_order"]
+    )
+    out["maps_note_html"] = f'        <p class="maps-note">{escape(s["maps_note"])}</p>' if s["maps_note"] else ""
     out["contact_buttons"] = "\n".join(contact_button(*c, copied=s.get("copied", "")) for c in CONTACTS[code])
     return TEMPLATE.format(**out)
 
