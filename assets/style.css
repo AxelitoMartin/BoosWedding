@@ -208,7 +208,7 @@ legend { font-size: 14px; color: var(--muted); margin-bottom: 8px; padding: 0; }
 }
 .options input { accent-color: var(--leaf); margin: 0; }
 .options label:has(input:checked) { border-color: var(--leaf); background: var(--leaf-soft); }
-button[type="submit"] {
+button[type="submit"], .rsvp-button {
   justify-self: center;
   font: inherit;
   font-family: var(--serif);
@@ -220,7 +220,7 @@ button[type="submit"] {
   color: #fff;
   cursor: pointer;
 }
-button[type="submit"]:hover { filter: brightness(1.15); }
+button[type="submit"]:hover, .rsvp-button:hover { filter: brightness(1.15); }
 button[disabled] { opacity: 0.6; cursor: wait; }
 .form-msg { text-align: center; padding: 28px 20px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); }
 .form-msg h3 { font-family: var(--serif); font-weight: 400; font-size: 26px; color: var(--leaf); margin: 0 0 6px; }
@@ -423,3 +423,6 @@ button.contact-btn { font: inherit; color: inherit; cursor: pointer; text-align:
   cursor: pointer;
 }
 .gate-error { margin: 0; color: var(--vermilion); font-size: 14px; }
+
+.rsvp-action { margin: 32px 0; }
+.rsvp-button { display: inline-block; text-decoration: none; }

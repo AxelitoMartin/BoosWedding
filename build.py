@@ -24,6 +24,7 @@ from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 ROOT = Path(__file__).parent
 OUT = ROOT / "site"
 PBKDF2_ITERATIONS = 250_000
+RSVP_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdYzRu_ETqfjsS_58knFTfyPB3LS4gPhfm350Dra2n4bWbgjQ/viewform"
 
 # Venue: coordinates from the Google Maps pin (GCJ-02, the system Chinese map apps use)
 VENUE_ZH = "白家大院（北门）"
@@ -59,6 +60,8 @@ LANGS = [("en", "English"), ("fr", "Français"), ("zh", "中文")]
 
 STRINGS = {
     "en": {
+        "rsvp_button": "Open RSVP form",
+        "rsvp_note": "Complete your RSVP in Google Forms (English and French). Opens in a new tab.",
         "html_lang": "en",
         "title": "Claudia & Axel · 4 September 2027 · Beijing",
         "nav_details": "Details",
@@ -120,6 +123,8 @@ STRINGS = {
         "footer": "4 September 2027 · Beijing",
     },
     "fr": {
+        "rsvp_button": "Ouvrir le formulaire de réponse",
+        "rsvp_note": "Répondez dans Google Forms (en anglais et en français). Le formulaire s’ouvre dans un nouvel onglet.",
         "html_lang": "fr",
         "title": "Claudia & Axel · 4 septembre 2027 · Pékin",
         "nav_details": "Infos",
@@ -181,6 +186,8 @@ STRINGS = {
         "footer": "4 septembre 2027 · Pékin",
     },
     "zh": {
+        "rsvp_button": "打开报名表",
+        "rsvp_note": "请在 Google 表单中回复（提供英语和法语）。表单将在新标签页中打开。",
         "html_lang": "zh-Hans",
         "title": "Claudia & Axel · 2027年9月4日 · 北京",
         "nav_details": "婚礼信息",
@@ -334,45 +341,8 @@ TEMPLATE = """<!doctype html>
       <h2>{rsvp_title}</h2>
       <p class="lead">{rsvp_lead}</p>
 
-      <form class="rsvp">
-        <div class="row">
-          <label class="field">{first_name}<input type="text" name="firstName" autocomplete="given-name" required maxlength="100"></label>
-          <label class="field">{last_name}<input type="text" name="lastName" autocomplete="family-name" required maxlength="100"></label>
-        </div>
-        <label class="field">{email}<input type="email" name="email" autocomplete="email" required maxlength="200"></label>
-        <label class="field">{address}<input type="text" name="address" autocomplete="street-address" maxlength="300"></label>
-
-        <fieldset>
-          <legend>{availability}</legend>
-          <div class="options">
-            <label><input type="radio" name="attending" value="yes" required> {accept}</label>
-            <label><input type="radio" name="attending" value="no"> {decline}</label>
-          </div>
-        </fieldset>
-
-        <label class="field">{guests}
-          <input type="number" name="guests" min="1" max="10" value="1">
-        </label>
-
-        <label class="field">{dietary}
-          <select name="dietary">
-            <option value="" disabled selected>{diet_choose}</option>
-{diet_options}
-          </select>
-        </label>
-        <label class="field">{diet_other}<input type="text" name="dietaryOther" maxlength="300"></label>
-        <label class="check"><input type="checkbox" name="lodging" value="yes"> {lodging}</label>
-
-        <label class="field">{message}<textarea name="message" rows="3" maxlength="1000"></textarea></label>
-
-        <button type="submit">{submit}</button>
-      </form>
-
-      <div class="form-msg" data-success hidden>
-        <h3>{thanks_title}</h3>
-        <p>{thanks_body}</p>
-      </div>
-      <div class="form-msg error" data-error hidden><p>{error}</p></div>
+      <p class="rsvp-action"><a class="rsvp-button" href="{rsvp_url}" target="_blank" rel="noopener noreferrer">{rsvp_button}</a></p>
+      <p>{rsvp_note}</p>
     </div>
   </section>
 
@@ -416,6 +386,7 @@ def build(code: str) -> str:
     # Plain-text values are escaped; date_html intentionally contains markup.
     out = {k: (escape(v) if isinstance(v, str) and k != "date_html" else v) for k, v in s.items()}
     out["title"] = escape(s["title"])
+    out["rsvp_url"] = escape(RSVP_URL, quote=True)
     out["fonts"] = FONTS.format(extra="&family=Noto+Serif+SC:wght@400;600" if code == "zh" else "")
     out["lang_links"] = "\n".join(
         f'        <a href="../{c}/" hreflang="{STRINGS[c]["html_lang"]}"'
